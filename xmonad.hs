@@ -5,6 +5,7 @@ import XMonad.Util.Run(spawnPipe)
 import System.IO
 
 import XMonad.Layout.BinarySpacePartition
+import XMonad.Layout.EqualSpacing
 
 -- Fullscreen (see http://www.haskell.org/haskellwiki/Xmonad/Frequently_asked_questions#Watch_fullscreen_flash_video)
 import XMonad.Layout.NoBorders(smartBorders)
@@ -32,7 +33,29 @@ main = do
 
 myManageHook = composeAll [ isFullscreen --> doFullFloat]
 
-myWorkspaces = ["α", "β", "γ", "δ", "λ", "φ", "χ", "ψ", "ω"]
+myWorkspaces = ["α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι"]
 
-myLayoutHook = smartBorders $ avoidStruts $ myLayouts
-myLayouts = emptyBSP
+{- equalSpacing spaces can be adjusted on the fly, if you want to look into that
+https://github.com/egasimus/xmonad-equalspacing
+-}
+myLayoutHook = smartBorders $ avoidStruts $  equalSpacing gap add mult min $ myLayouts
+	     where	    
+	     -- spacing from one window to the next (or screen edge to windows)
+	     gap = 25
+	     -- number of pixels subtracted from border for each new window
+	     add = 5
+	     -- not implemented yet
+	     mult = 0
+	     -- absolute minimum border
+	     min = 1
+  
+myLayouts = tiled ||| Mirror tiled ||| Full ||| emptyBSP
+	  where
+	     -- default tiling algorithm partitions the screen into two panes
+	     tiled   = Tall nmaster delta ratio
+	     -- The default number of windows in the master pane
+             nmaster = 1
+	     -- Default proportion of screen occupied by master pane
+             ratio   = 1/2
+     	     -- Percent of screen to increment by when resizing panes
+	     delta   = 3/100
