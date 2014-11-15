@@ -2,6 +2,7 @@ import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.EZConfig(additionalKeysP)
 import System.IO
 
 import XMonad.Layout.Renamed
@@ -30,7 +31,7 @@ main = do
 			, ppSep = " :: "
 --			, ppOrder = \(wkspaces::layout::title:__) -> [ws,t] -- don't display layout
                         }
-        }
+        } `additionalKeysP` myKeys
 
 myManageHook = composeAll [ isFullscreen --> doFullFloat]
 
@@ -66,3 +67,16 @@ myLayouts = (renamed [Replace "Tall"] $ gaps $ tiled)
      	     -- Percent of screen to increment by when resizing panes
 	     delta   = 3/100
 
+myKeys = [ ("M-[", sendMessage $ LessSpacing)
+         , ("M-]", sendMessage $ MoreSpacing)
+	 , ("M-M1-<Left>",    sendMessage $ ExpandTowards L)
+	 , ("M-M1-<Right>",   sendMessage $ ShrinkFrom L)
+	 , ("M-M1-<Up>",      sendMessage $ ExpandTowards U)
+	 , ("M-M1-<Down>",    sendMessage $ ShrinkFrom U)
+	 , ("M-M1-C-<Left>",  sendMessage $ ShrinkFrom R)
+	 , ("M-M1-C-<Right>", sendMessage $ ExpandTowards R)
+	 , ("M-M1-C-<Up>",    sendMessage $ ShrinkFrom D)
+	 , ("M-M1-C-<Down>",  sendMessage $ ExpandTowards D)
+	 , ("M-s",            sendMessage $ Swap)
+	 , ("M-M1-s",         sendMessage $ Rotate)
+	 ]
