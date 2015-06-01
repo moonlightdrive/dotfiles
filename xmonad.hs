@@ -7,9 +7,13 @@ import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeysP)
 import System.IO
 
+-- BSP
 import XMonad.Layout.Renamed
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.EqualSpacing
+
+-- compositing
+import XMonad.Hooks.FadeInactive
 
 -- Fullscreen (see http://www.haskell.org/haskellwiki/Xmonad/Frequently_asked_questions#Watch_fullscreen_flash_video)
 import XMonad.Layout.NoBorders(smartBorders)
@@ -33,12 +37,7 @@ main = do
         , manageHook = myManageHook <+> manageDocks <+> manageHook defaultConfig
 --        , layoutHook = smartBorders $ avoidStruts $ layoutHook defaultConfig
 	, layoutHook = myLayoutHook
-        , logHook = dynamicLogWithPP defaultPP
-                        { ppOutput = hPutStrLn xmproc
-			, ppCurrent = xmobarColor accentColor "" -- "#909737" ""
-			, ppSep = " :: "
---			, ppOrder = \(wkspaces::layout::title:__) -> [ws,t] -- don't display layout
-                        }
+        , logHook = myLogHook xmproc
         } `additionalKeysP` myKeys
 
 myManageHook = composeAll [ isFullscreen --> doFullFloat]
@@ -46,6 +45,14 @@ myManageHook = composeAll [ isFullscreen --> doFullFloat]
 myWorkspaces = ["α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι"]
 
 myLayoutHook = smartBorders $ avoidStruts $ myLayouts
+
+myLogHook xmproc = fade <+> dynamicLogWithPP defaultPP
+                   { ppOutput = hPutStrLn xmproc
+	           , ppCurrent = xmobarColor accentColor "" -- "#909737" ""
+	           , ppSep = " :: "
+                   -- , ppOrder = \(wkspaces::layout::title:__) -> [ws,t] -- don't display layout
+                   } 
+    where fade = fadeInactiveLogHook 0.8
 
 gaps = equalSpacing gap add mult min
        where	    
