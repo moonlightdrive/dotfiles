@@ -30,6 +30,12 @@ moveAndcd() {
   mv $@ && cd $_
 }
 
+alias dev=goToDevDir
+goToDevDir() {
+  cd $HOME/dev/$1
+}
+
+
 # OPAM configuration
 . /home/moonlight/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
 
