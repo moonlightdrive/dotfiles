@@ -11,6 +11,9 @@ PS1='[\u@\h \W]\$ '
 
 set -o emacs
 
+# for colored ls in termite
+eval $(dircolors ~/.dircolors)
+
 # bash vars http://tldp.org/LDP/abs/html/internalvariables.html
 
 # Aliases

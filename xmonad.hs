@@ -28,7 +28,7 @@ accentColor = "#FF0044"
 main = do
     xmproc <- spawnPipe "/home/moonlight/.cabal/bin/xmobar /home/moonlight/.config/xmobarrc"
     xmonad $ defaultConfig
-        { terminal = "urxvt"
+        { terminal = "termite"
         , modMask  = mod4Mask
 	, borderWidth = 3
 	, normalBorderColor = "#222222" -- "#0077ff" --"#090C19"
