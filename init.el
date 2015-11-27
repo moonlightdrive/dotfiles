@@ -34,7 +34,7 @@
       (append '(("\\.ml[ily]?$" . tuareg-mode)
                 ("\\.topml$" . tuareg-mode))
               auto-mode-alist))
-
+(setq tuareg-font-lock-symbols t)
 ;; utop
 ;; Automatically load utop.el
 (autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
