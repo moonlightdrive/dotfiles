@@ -151,3 +151,6 @@
    ;(sequence "TODELEGATE(-)" "DELEGATED(d)" "|" "COMPLETE(x)")
    ))
 
+
+;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
