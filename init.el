@@ -55,6 +55,9 @@
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
+
+(load "server")
+(unless (server-running-p) (server-start))
 ;; themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/moe-theme.el/")
