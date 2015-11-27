@@ -58,6 +58,9 @@
 
 (load "server")
 (unless (server-running-p) (server-start))
+
+(define-key key-translation-map "\C-t" "\C-x")
+
 ;; themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/moe-theme.el/")
