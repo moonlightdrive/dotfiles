@@ -2,6 +2,7 @@
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
+
 ;;; ocaml ;;;;;
 ;; https://github.com/realworldocaml/book/wiki/Installation-Instructions
 ;; paths
@@ -45,7 +46,7 @@
 ;;;(mapc #'(lambda (ext) (add-to-list 'completion-ignored-extensions ext))
 ;;;  '(".cmo" ".cmx" ".cma" ".cmxa" ".cmi" ".cmxs" ".cmt" ".annot"))
 
-
+
 ;;; TRAMP ;;;;;
 (require 'tramp)
 (setq tramp-default-method "scp")
@@ -114,9 +115,11 @@
 (global-set-key [(meta ?F)] 'windmove-right) ; was unbound
 (global-set-key [(meta ?N)] 'windmove-down)  ; was unbound
 
+
 ;;; haskell ;;;;;
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
+
 ;;; latex
 ;; font-lock for cuties
 ;; http://endlessparentheses.com/improving-latex-equations-with-font-lock.html
@@ -135,6 +138,7 @@
     0 'endless/unimportant-latex-face prepend))
  'end)
 
+
 ;;; org mode ;;;;;
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
