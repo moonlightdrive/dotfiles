@@ -114,6 +114,24 @@
 ;;; haskell ;;;;;
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
+;;; latex
+;; font-lock for cuties
+;; http://endlessparentheses.com/improving-latex-equations-with-font-lock.html
+(defface endless/unimportant-latex-face
+  '((t :height 0.7
+       :inherit font-lock-comment-face))
+  "Face used on less relevant math commands.")
+
+(font-lock-add-keywords
+ 'latex-mode
+ `((,(rx (or (and "\\" (or (any ",.!;")
+                           (and (or "left" "right"
+                                    "big" "Big")
+                                symbol-end)))
+             (any "_^")))
+    0 'endless/unimportant-latex-face prepend))
+ 'end)
+
 ;;; org mode ;;;;;
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
