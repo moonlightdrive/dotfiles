@@ -62,6 +62,9 @@
 
 (define-key key-translation-map "\C-t" "\C-x")
 
+;; registers
+(set-register ?o (cons 'file "~/.org/organizer.org"))
+
 ;; themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/moe-theme.el/")
