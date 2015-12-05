@@ -148,9 +148,12 @@
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cc" 'org-capture)
 (setq org-log-done t)
-;; todo file locations
+;; file locations
+(setq org-directory '"~/.org/")
 (setq org-agenda-files '("~/.org/organizer.org" "~/.org/class.org"))
+(setq org-default-notes-file (concat org-directory "refile.org"))
 ;; 12hr clock in agenda view
 (setq org-agenda-timegrid-use-ampm 1)
 ;; agenda view display 14 days ahead (excluding current day)
@@ -180,6 +183,8 @@
  ;  (sequence "TOSKETCH" "SKETCHED" "|" "POSTED")
    ;(sequence "TODELEGATE(-)" "DELEGATED(d)" "|" "COMPLETE(x)")
    ))
+; refiling
+(setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
 
 
 ;; magit
