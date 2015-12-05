@@ -89,8 +89,8 @@
 (moe-light)
 
 ;; font
-(add-to-list 'default-frame-alist
-             '(font . "DejaVu Sans Mono-9"))
+(set-frame-font "Droid Sans Mono 8")
+
 ;; modeline
 (line-number-mode t)
 (column-number-mode t)
