@@ -178,10 +178,6 @@
  '((sequence
     "TODO"  ; next action
     "|" "DONE(x)" "CANCELLED(c@)")
-   (sequence "TOBLOG" "|" "POSTED(x)")
-;   (sequence "LEARN" "DO" "TEACH" "|" "COMPLETE(x)")
- ;  (sequence "TOSKETCH" "SKETCHED" "|" "POSTED")
-   ;(sequence "TODELEGATE(-)" "DELEGATED(d)" "|" "COMPLETE(x)")
    ))
 ; refiling
 (setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
