@@ -1,6 +1,6 @@
 # environment vars only pls
 export EDITOR="emacsclient --alternate-editor= -t"
-
+export BROWSER="firefox"
 
 export EC2_HOME=/usr/local/ec2/ec2-api-tools-1.7.1.2
 export JAVA_HOME=/usr/lib/jvm/default
