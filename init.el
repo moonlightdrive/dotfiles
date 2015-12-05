@@ -1,5 +1,10 @@
 ;; M-x eval-buffer
 
+;; Turn off mouse interface early in startup to avoid momentary display
+(if (fboundp 'menu-bar-mode) (menu-bar-mode 0))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode 0))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode 0))
+
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 
 
@@ -92,9 +97,6 @@
 ;; undesired startup things
 (setq initial-scratch-message "")
 (setq inhibit-startup-message t)
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
-(menu-bar-mode 0)
 ;; change "yes or no" to "y or n"
 (fset 'yes-or-no-p 'y-or-n-p)
 ;; set fringe to be same as bg
