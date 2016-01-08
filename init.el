@@ -65,7 +65,6 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
-(define-key key-translation-map "\C-t" "\C-x")
 
 ;; registers
 (set-register ?o (cons 'file "~/.org/organizer.org"))
