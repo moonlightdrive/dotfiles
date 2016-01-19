@@ -65,6 +65,11 @@
 (load "server")
 (unless (server-running-p) (server-start))
 
+;; for easily going back to previous window configurations
+;; eg when opening org-agenda disrupts workflow
+(when (fboundp 'winner-mode)
+  (winner-mode 1))
+
 
 ;; registers
 (set-register ?o (cons 'file "~/.org/organizer.org"))
