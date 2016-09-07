@@ -1,9 +1,10 @@
 -- http://stackoverflow.com/questions/9993966/xmonad-confirmation-when-restarting
 
 import XMonad
+import qualified XMonad.StackSet as W
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
-import XMonad.Util.Run(spawnPipe)
+-- import XMonad.Util.Run
 import XMonad.Util.EZConfig(additionalKeysP)
 import System.IO
 
@@ -23,36 +24,60 @@ import XMonad.Hooks.ManageHelpers
 -- or somehow tie them together.
 -- Hmm....
 
+-- XXX look at ask/get in core
+
 accentColor = "#FF0044"
 
+
+
+main :: IO ()
 main = do
-    xmproc <- spawnPipe "/home/moonlight/.cabal/bin/xmobar /home/moonlight/.config/xmobarrc"
-    xmonad $ defaultConfig
+--    xmproc <- spawnPipe "/home/moonlight/.cabal/bin/xmobar /home/moonlight/.config/xmobarrc"
+  xmonad =<< myStatusBar (defaultConfig
         { terminal = "termite"
-        , modMask  = mod4Mask
-	, borderWidth = 3
-	, normalBorderColor = "#222222" -- "#0077ff" --"#090C19"
-	, focusedBorderColor = accentColor -- "#909737"
+        , modMask  =  mod4Mask
+        , borderWidth = 1
+	, normalBorderColor = "#222222"
+	, focusedBorderColor = accentColor
 	, workspaces = myWorkspaces
-        , manageHook = myManageHook <+> manageDocks <+> manageHook defaultConfig
---        , layoutHook = smartBorders $ avoidStruts $ layoutHook defaultConfig
+        , manageHook = myManageHook
 	, layoutHook = myLayoutHook
-        , logHook = myLogHook xmproc
-        } `additionalKeysP` myKeys
+        , logHook = myLogHook {- xmproc -}
+        , focusFollowsMouse = False
+        } `additionalKeysP` myKeys)
 
-myManageHook = composeAll [ isFullscreen --> doFullFloat]
+myStatusBar = statusBar barCmd myPP toggleBar
+  where
+    barCmd = "/home/moonlight/.cabal/bin/xmobar /home/moonlight/.config/xmobarrc"
+    toggleBar XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
+    myPP = defaultPP { ppCurrent = xmobarColor accentColor ""
+                     , ppSep = " :: "
+                               -- , ppOrder = \(wkspaces::layout::title:__) -> [ws,t] -- don't display layout
+                     }
+        
+myManageHook = composeOne [ isFullscreen -?> doFullFloat
+--                          , (className =? "Gimp") -?> doFloat
+                          , (role =? "gimp-toolbox" <||> role =? "gimp-image-window") -?> (ask >>= doF . W.sink)
+                          ]
+  where role = stringProperty "WM_WINDOW_ROLE"
 
-myWorkspaces = ["α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι"]
+{-
+myManageHook = composeAll [ manageDocks
+                          , isFullscreen --> doFullFloat
+                          , manageHook defaultConfig
+                          ]
+-}
 
-myLayoutHook = smartBorders $ avoidStruts $ myLayouts
 
-myLogHook xmproc = fade <+> dynamicLogWithPP defaultPP
-                   { ppOutput = hPutStrLn xmproc
-	           , ppCurrent = xmobarColor accentColor "" -- "#909737" ""
-	           , ppSep = " :: "
-                   -- , ppOrder = \(wkspaces::layout::title:__) -> [ws,t] -- don't display layout
-                   } 
-    where fade = fadeInactiveLogHook 0.8
+myWorkspaces :: [String]
+myWorkspaces = map show [1..9]
+-- myWorkspaces = ["α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι"]
+
+myLayoutHook = smartBorders $ {- avoidStruts $ -} myLayouts
+
+myLogHook :: X ()
+myLogHook = fade
+  where fade = fadeInactiveLogHook 1 -- 0.6
 
 gaps = equalSpacing gap add mult min
        where	    
@@ -65,7 +90,7 @@ gaps = equalSpacing gap add mult min
        -- absolute minimum border
        min = 1
 
-myLayouts = (renamed [Replace "Binary"] $ gaps $ emptyBSP)
+myLayouts = (renamed [Replace "Binary"] $ {- gaps $ -} emptyBSP)
             ||| (renamed [Replace "Full"] $ Full)
 
 data DmenuPosition = Bottom | Top
@@ -111,21 +136,23 @@ myKeys = [ ("M-p", spawn dmenu)
          , ("M-[", sendMessage $ LessSpacing)
          , ("M-]", sendMessage $ MoreSpacing)
 --	 , ("M-M1-<Left>",    sendMessage $ ExpandTowards L)
-         , ("M-h",    sendMessage $ ExpandTowards L)
+         , ("M-M1-h",    sendMessage $ ExpandTowards L)
 --	 , ("M-M1-<Right>",   sendMessage $ ShrinkFrom L)
 	 , ("M-M1-k",      sendMessage $ ExpandTowards U)
 --	 , ("M-M1-<Down>",    sendMessage $ ShrinkFrom U)
 --	 , ("M-M1-C-<Left>",  sendMessage $ ShrinkFrom R)
 --	 , ("M-M1-C-<Right>", sendMessage $ ExpandTowards R)
-         , ("M-l",    sendMessage $ ExpandTowards R)
+         , ("M-M1-l",    sendMessage $ ExpandTowards R)
 --	 , ("M-M1-C-<Up>",    sendMessage $ ShrinkFrom D)
 --	 , ("M-M1-C-<Down>",  sendMessage $ ExpandTowards D)
          , ("M-M1-j",    sendMessage $ ExpandTowards D)
 	 , ("M-s",            sendMessage $ Swap)
-	 , ("M-M1-s",         sendMessage $ Rotate)
+	 , ("M-r",         sendMessage $ Rotate)
 	 , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 3")
 	 , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 3")
 	 , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
 	 , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
 	 , ("<XF86AudioMute>", spawn "amixer set Master toggle")
+         , ("M-e", spawn "emacs")
+--         , ("M-b", dynamicLogString myPP >>= \d-> spawn $ "(echo \"%{c}"++d++"\"; sleep 3) | lemonbar -g 1600x15+0+0 -d")
 	 ]
