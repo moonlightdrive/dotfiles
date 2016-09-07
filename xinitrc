@@ -1,13 +1,17 @@
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+    for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+            [ -x "$f" ] && . "$f"
+                done
+                    unset f
+                    fi
+
 xrdb -merge ~/.Xresources
 
-if [ -s ~/.Xmodmap ]; then
-    xmodmap ~/.Xmodmap
-fi
-
 xsetroot Vanilla-DMZ-aa left_ptr
+
 setxkbmap dvorak
 xbindkeys -f .config/xbindkeysrc
-# compton -fb
+compton -fb
 unclutter &
 sh ~/.fehbg &
-exec xmonad
+[[ -a $HOME/.Xmodmap ]] && /usr/bin/xmodmap $HOME/.Xmodmap && exec xmonad
