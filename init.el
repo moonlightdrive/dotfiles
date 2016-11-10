@@ -36,3 +36,9 @@
   (winner-mode 1))
 
 (load-theme 'monokai t)
+
+;; magit
+(global-set-key (kbd "C-x g") 'magit-status)
+
+;;; HASKELL ;;;;;
+(add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
