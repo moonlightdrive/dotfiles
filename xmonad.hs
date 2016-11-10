@@ -1,6 +1,7 @@
 import XMonad
-import XMonad.Hooks.EwmhDesktops
 import XMonad.Config.Xfce
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageHelpers
 import XMonad.Util.EZConfig(additionalKeysP)
 
 main = xmonad $ ewmh xfceConfig
@@ -9,7 +10,11 @@ main = xmonad $ ewmh xfceConfig
      , borderWidth = 1
      , normalBorderColor = "#222222"
      , focusedBorderColor = "#4ce6f7"
+     , manageHook = myManageHook <+> manageHook xfceConfig
      } `additionalKeysP` myKeys
+
+myManageHook = composeAll
+             [ className =? "Xfce4-notifyd" --> doIgnore ]
 
 myKeys =
        [ ("M-p", spawn "rofi -show run")
