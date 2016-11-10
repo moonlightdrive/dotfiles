@@ -5,7 +5,7 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Util.EZConfig(additionalKeysP)
 
 main = xmonad $ ewmh xfceConfig
-     { terminal = "xfce4-terminal"
+     { terminal = "xfce4-terminal --hide-menubar"
      , modMask = mod4Mask
      , borderWidth = 1
      , normalBorderColor = "#222222"
