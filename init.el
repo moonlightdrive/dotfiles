@@ -35,7 +35,8 @@
 (when (fboundp 'winner-mode)
   (winner-mode 1))
 
-(load-theme 'monokai t)
+;; (load-theme 'monokai t)
+(load-theme 'dracula t)
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
