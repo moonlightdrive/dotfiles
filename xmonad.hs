@@ -1,28 +1,35 @@
 import XMonad
 import XMonad.Config.Xfce
+import XMonad.Config.Desktop
+import XMonad.Hooks.DynamicLog
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.NoBorders(smartBorders)
 import XMonad.Layout.Renamed
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Util.EZConfig(additionalKeysP)
-import XMonad.Hooks.ManageDocks(avoidStruts)
 
-main = xmonad $ ewmh xfceConfig
+main = do
+  dbus <- D.connectSession
+  getWellKnownName dbus
+  xmonad $ ewmh xfceConfig
      { terminal = "xfce4-terminal --hide-menubar"
      , modMask = mod4Mask
      , borderWidth = 1
      , normalBorderColor = "#222222"
      , focusedBorderColor = "#4ce6f7"
+     , logHook = dynamicLogWithPP (prettyPrinter dbus) <+> logHook xfceConfig
      , handleEventHook = fullscreenEventHook <+> handleEventHook xfceConfig
      , layoutHook = myLayoutHook
      , manageHook = myManageHook <+> manageHook xfceConfig
      } `additionalKeysP` myKeys
 
-myLayoutHook = avoidStruts . smartBorders $ myLayouts
+myLayoutHook = smartBorders $ myLayouts
 
-myLayouts = (renamed [Replace "Binary"] $ emptyBSP)
-            ||| (renamed [Replace "Full"] $ Full)
+myLayouts = desktopLayoutModifiers $ (renamed [Replace "Binary"] $ emptyBSP) ||| (renamed [Replace "Full"] $ Full)
 
 myManageHook = composeAll
                [ className =? "Xfce4-notifyd" --> doIgnore ]
@@ -43,3 +50,23 @@ myKeys =
 	 , ("M-s", sendMessage $ Swap)
          , ("M-r", sendMessage $ Rotate)
        ]
+
+prettyPrinter :: D.Client -> PP
+prettyPrinter dbus = defaultPP
+    { ppOutput   = dbusOutput dbus
+    , ppLayout   = const ""
+    , ppSep      = " "
+    }
+
+getWellKnownName :: D.Client -> IO ()
+getWellKnownName dbus = do
+  D.requestName dbus (D.busName_ "org.xmonad.Log")
+                [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+  return ()
+
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str = do
+    let signal = (D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")) {
+            D.signalBody = [D.toVariant ("<b>" ++ (UTF8.decodeString str) ++ "</b>")]
+        }
+    D.emit dbus signal
