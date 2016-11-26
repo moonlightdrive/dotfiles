@@ -29,7 +29,6 @@ myManageHook = composeAll
 
 myKeys =
        [ ("M-p", spawn "rofi -show run")
-       , ("M-S-q", spawn "xfce4-session-logout")
        --	 , ("M-M1-<Left>",    sendMessage $ ExpandTowards L)
        , ("M-M1-h", sendMessage $ ExpandTowards L)
        --	 , ("M-M1-<Right>",   sendMessage $ ShrinkFrom L)
