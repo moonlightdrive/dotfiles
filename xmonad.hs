@@ -11,8 +11,10 @@ import XMonad.Layout.NoBorders(smartBorders)
 import XMonad.Layout.Renamed
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Util.EZConfig(additionalKeysP)
+import XMonad.Util.Replace
 
 main = do
+  replace
   dbus <- D.connectSession
   getWellKnownName dbus
   xmonad $ ewmh xfceConfig
