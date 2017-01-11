@@ -34,7 +34,9 @@ myLayoutHook = smartBorders $ myLayouts
 myLayouts = desktopLayoutModifiers $ (renamed [Replace "Binary"] $ emptyBSP) ||| (renamed [Replace "Full"] $ Full)
 
 myManageHook = composeAll
-               [ className =? "Xfce4-notifyd" --> doIgnore ]
+               [ className =? "Xfce4-notifyd" --> doIgnore
+               , className =? "Gimp"           --> doFloat
+               ]
 
 myKeys =
        [ ("M-p", spawn "rofi -show run")
