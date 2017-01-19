@@ -38,9 +38,38 @@
 ;; (load-theme 'monokai t)
 (load-theme 'dracula t)
 
+
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
+;;; orgmode ;;;;;
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(define-key global-map "\C-cc" 'org-capture)
+(setq org-log-done t)
+
+(setq org-directory '"~/org/")
+(setq org-agenda-files (list (concat org-directory "anizer.org")
+                             (concat org-directory "refile.org")))
+(setq org-default-notes-file (concat org-directory "refile.org"))
+;; agenda view display 14 days ahead (excluding current day)
+(setq org-agenda-span 15)
+;; prevent editing invisible text
+(setq org-catch-invisible-edits 'error)
+(setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+;; Don't show any entries with a timestamp in the global todo list.
+;; The idea behind this is that by setting a timestamp, you
+;; have already "taken care" of this item.
+(setq org-agenda-todo-ignore-timestamp 'all)
+(setq org-agenda-todo-ignore-scheduled 'all)
+;; line wrap
+(setq org-startup-truncated nil)
+;; refiling
+(setq org-refile-targets '((org-agenda-files . (:maxlevel . 6))))
+
 ;;; HASKELL ;;;;;
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
+
+;; registers
+(set-register ?o (cons 'file (concat org-directory "anizer.org")))
