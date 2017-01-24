@@ -71,5 +71,15 @@
 ;;; HASKELL ;;;;;
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
+;;; ocaml ;;;;;
+;; (require 'ocp-indent)
+(let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
+  (when (and opam-share (file-directory-p opam-share))
+    (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
+    (add-to-list 'load-path (expand-file-name "emacs/site-lisp/tuareg-site-file"))
+    (require 'ocp-indent)
+    (autoload 'merlin-mode "merlin" nil t nil)
+    (add-hook 'tuareg-mode-hook 'merlin-mode t)))
+
 ;; registers
 (set-register ?o (cons 'file (concat org-directory "anizer.org")))
