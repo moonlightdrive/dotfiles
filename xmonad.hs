@@ -58,9 +58,16 @@ myKeys =
 prettyPrinter :: D.Client -> PP
 prettyPrinter dbus = defaultPP
     { ppOutput   = dbusOutput dbus
-    , ppLayout   = const ""
+--    , ppLayout   = const ""
+    , ppOrder = \(ws:_:t:_) -> [ws, t]
     , ppSep      = " "
+    , ppUrgent = fgColor "#d66951"
     }
+  where fgColor fg =
+          let left = "<span foreground=\"" ++ fg ++ "\">"
+              right = "</span>"
+          in wrap left right
+  {- fgColor <- pango text attribute markup language -}
 
 getWellKnownName :: D.Client -> IO ()
 getWellKnownName dbus = do
