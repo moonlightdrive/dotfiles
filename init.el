@@ -36,7 +36,8 @@
   (winner-mode 1))
 
 ;; (load-theme 'monokai t)
-(load-theme 'dracula t)
+;;(load-theme 'dracula t)
+(load-theme 'zweilight t)
 
 
 ;; magit
