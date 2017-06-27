@@ -64,6 +64,8 @@
 ;; have already "taken care" of this item.
 (setq org-agenda-todo-ignore-timestamp 'all)
 (setq org-agenda-todo-ignore-scheduled 'all)
+;; repeating events only show up on the first upcoming date they are scheduled
+(setq org-agenda-repeating-timestamp-show-all nil)
 ;; line wrap
 (setq org-startup-truncated nil)
 ;; refiling
