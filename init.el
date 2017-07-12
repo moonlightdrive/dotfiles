@@ -22,6 +22,7 @@
 ;; I end sentences with one space!
 (setq sentence-end-double-space nil)
 (show-paren-mode 1)
+(setq compilation-scroll-output 'first-error)
 
 ;; windmove and some alternative keybindings
 (when (fboundp 'windmove-default-keybindings)
