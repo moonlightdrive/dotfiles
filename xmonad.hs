@@ -35,7 +35,7 @@ myLayouts = desktopLayoutModifiers $ (renamed [Replace "Binary"] $ emptyBSP) |||
 
 myManageHook = composeAll
                [ className =? "Xfce4-notifyd" --> doIgnore
-               , title =? "Whisker Menu"      --> doIgnore
+               , title =? "Whisker Menu"      --> doFloat
                , className =? "Gimp"          --> doFloat
                ]
 
