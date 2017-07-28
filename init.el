@@ -9,6 +9,7 @@
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
+(set-face-attribute 'default nil :height 120)
 ;; modeline
 (line-number-mode t)
 (column-number-mode t)
