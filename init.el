@@ -53,8 +53,9 @@
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-log-done t)
 
-(setq org-directory '"~/org/")
-(setq org-agenda-files (list (concat org-directory "anizer.org")
+(setq org-directory "~/org/")
+(defvar my/org-anizer (concat org-directory "anizer.org"))
+(setq org-agenda-files (list my/org-anizer
                              (concat org-directory "refile.org")))
 (setq org-default-notes-file (concat org-directory "refile.org"))
 ;; agenda view display 14 days ahead (excluding current day)
@@ -88,4 +89,5 @@
     (add-hook 'tuareg-mode-hook 'merlin-mode t)))
 
 ;; registers
-(set-register ?o (cons 'file (concat org-directory "anizer.org")))
+(set-register ?o (cons 'file my/org-anizer))
+(set-register ?i '(file . "~/.emacs.d/init.el"))
