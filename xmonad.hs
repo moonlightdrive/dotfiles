@@ -20,6 +20,7 @@ main = do
   xmonad $ ewmh xfceConfig
      { borderWidth = 1
      , focusedBorderColor = "#4ce6f7"
+     , focusFollowsMouse = False
      , handleEventHook = fullscreenEventHook <+> handleEventHook xfceConfig
      , layoutHook = myLayoutHook
      , logHook = dynamicLogWithPP (prettyPrinter dbus) <+> logHook xfceConfig
