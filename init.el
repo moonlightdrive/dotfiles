@@ -4,7 +4,7 @@
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode 0))
 
 ;;; EMACS ;;;;;
-(require 'package) 
+(require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
