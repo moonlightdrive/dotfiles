@@ -18,15 +18,15 @@ main = do
   dbus <- D.connectSession
   getWellKnownName dbus
   xmonad $ ewmh xfceConfig
-     { terminal = "xfce4-terminal --hide-menubar"
-     , modMask = mod4Mask
-     , borderWidth = 1
-     , normalBorderColor = "#222222"
+     { borderWidth = 1
      , focusedBorderColor = "#4ce6f7"
-     , logHook = dynamicLogWithPP (prettyPrinter dbus) <+> logHook xfceConfig
      , handleEventHook = fullscreenEventHook <+> handleEventHook xfceConfig
      , layoutHook = myLayoutHook
+     , logHook = dynamicLogWithPP (prettyPrinter dbus) <+> logHook xfceConfig
      , manageHook = myManageHook <+> manageHook xfceConfig
+     , modMask = mod4Mask
+     , normalBorderColor = "#222222"
+     , terminal = "xfce4-terminal --hide-menubar"
      } `additionalKeysP` myKeys
 
 myLayoutHook = smartBorders $ myLayouts
@@ -40,7 +40,7 @@ myManageHook = composeAll
                ]
 
 myKeys =
-       [ ("M-p", spawn "rofi -show run")
+       [ ("M-p", spawn "rofi -show")
 
        , ("M-M1-h", sendMessage $ ExpandTowards L)
        , ("M-M1-k", sendMessage $ ExpandTowards U)
