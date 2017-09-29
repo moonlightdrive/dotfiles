@@ -38,10 +38,18 @@
 (when (fboundp 'winner-mode)
   (winner-mode 1))
 
-;; (load-theme 'monokai t)
-;;(load-theme 'dracula t)
-(load-theme 'zweilight t)
+;; took this from someone but don't recall who :c
+(use-package whitespace
+  :demand t
+  :ensure nil
+  :init
+  (add-hook 'prog-mode-hook #'whitespace-turn-on)
+  (add-hook 'text-mode-hook #'whitespace-turn-on)
+  ; cleanup whitespace on save
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+  :config (setq-default whitespace-style '(face empty tab trailing)))
 
+(load-theme 'monokai t)
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
