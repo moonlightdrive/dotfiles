@@ -41,7 +41,7 @@ myManageHook = composeAll
                ]
 
 myKeys =
-       [ ("M-p", spawn "rofi -show")
+       [ ("M-p", spawn "rofi -show run")
 
        , ("M-M1-h", sendMessage $ ExpandTowards L)
        , ("M-M1-k", sendMessage $ ExpandTowards U)
