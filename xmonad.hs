@@ -1,23 +1,27 @@
 import XMonad
-import XMonad.Config.Xfce
 import XMonad.Config.Desktop
+import XMonad.Config.Xfce
 import XMonad.Hooks.DynamicLog
+import qualified Codec.Binary.UTF8.String as UTF8
 import qualified DBus as D
 import qualified DBus.Client as D
-import qualified Codec.Binary.UTF8.String as UTF8
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
+import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.NoBorders(smartBorders)
 import XMonad.Layout.Renamed
-import XMonad.Layout.BinarySpacePartition
 import XMonad.Util.EZConfig(additionalKeysP)
 import XMonad.Util.Replace
+
+import XMonad.Actions.Navigation2D
+
+
 
 main = do
   replace
   dbus <- D.connectSession
   getWellKnownName dbus
-  xmonad $ ewmh xfceConfig
+  xmonad $ withNavigation2DConfig myNav2DConfig $ ewmh xfceConfig
      { borderWidth = 1
      , focusedBorderColor = "#4ce6f7"
      , focusFollowsMouse = False
@@ -28,7 +32,22 @@ main = do
      , modMask = mod4Mask
      , normalBorderColor = "#222222"
      , terminal = "xfce4-terminal --hide-menubar"
-     } `additionalKeysP` myKeys
+     } `additionalKeysP` concat [myKeys, myNav2DKeysP]
+
+
+
+-- TODO remove M-j & M-k &c and rebind the below keys
+-- Navigation
+-- https://hackage.haskell.org/package/xmonad-contrib-0.13/docs/XMonad-Actions-Navigation2D.html
+myNav2DConfig = def { layoutNavigation = [("Binary", hybridNavigation)] }
+myNav2DKeysP  = [ ("M-<Left>",    windowGo   L False)
+                , ("M-<Right>",   windowGo   R False)
+                , ("M-<Up>",      windowGo   U False)
+                , ("M-<Down>",    windowGo   D False)
+                , ("M-S-<Left>",  windowSwap L False)
+                , ("M-S-<Right>", windowSwap R False)
+                , ("M-S-<Up>",    windowSwap U False)
+                , ("M-S-<Down>",  windowSwap D False) ]
 
 myLayoutHook = smartBorders $ myLayouts
 
@@ -41,7 +60,7 @@ myManageHook = composeAll
                ]
 
 myKeys =
-       [ ("M-p", spawn "rofi -show")
+       [ ("M-p", spawn "rofi -show run")
 
        , ("M-M1-h", sendMessage $ ExpandTowards L)
        , ("M-M1-k", sendMessage $ ExpandTowards U)
