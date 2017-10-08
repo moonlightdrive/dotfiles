@@ -52,8 +52,10 @@
 (load-theme 'monokai t)
 
 ;; magit
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+(use-package magit
+  :commands magit-status
+  :bind ("C-x g" . magit-status)
+  :bind ("C-x M-g" . magit-dispatch-popup))
 
 ;;; orgmode ;;;;;
 (define-key global-map "\C-cl" 'org-store-link)
