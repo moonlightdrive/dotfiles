@@ -99,3 +99,14 @@
 ;; registers
 (set-register ?o (cons 'file my/org-anizer))
 (set-register ?i '(file . "~/.emacs.d/init.el"))
+
+;;; elixir
+(use-package elixir-mode
+  :commands elixir-mode
+  :config
+  (add-hook 'elixir-mode-hook 'alchemist-mode))
+
+(use-package alchemist
+  :commands alchemist-mode
+  :init
+  (setq alchemist-key-command-prefix (kbd "C-c k")))
