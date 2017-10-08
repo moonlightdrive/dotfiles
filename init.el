@@ -110,5 +110,20 @@
 
 (use-package alchemist
   :commands alchemist-mode
+  :diminish alchemist
   :init
-  (setq alchemist-key-command-prefix (kbd "C-c k")))
+  (setq alchemist-key-command-prefix (kbd "C-c k"))
+  :config
+  (bind-keys :map alchemist-mode-map
+             ("C-c C-l" . (lambda () (interactive)
+			    (save-buffer)
+                            (alchemist-iex-compile-this-buffer))))
+  (bind-keys :map alchemist-mode-map
+             ("C-x C-e" . alchemist-iex-send-current-line))
+  :mode (("\\.eex\\'" alchemist-mode)))
+
+;;; web-mode
+(use-package web-mode
+  :config
+  (setq-default indent-tabs-mode nil)
+  (setq web-mode-markup-indent-style 2))
