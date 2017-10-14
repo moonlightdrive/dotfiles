@@ -161,6 +161,16 @@
   (setq-default indent-tabs-mode nil)
   (setq web-mode-markup-indent-style 2)
   :mode ("\\.eex\\'" . web-mode))
+(use-package yasnippet
+  :init
+  (setq yas-snippet-dirs
+        '("~/.emacs.d/snippets"))
+  :config
+  (yas-global-mode 1)
+  :diminish yas-minor-mode)
+
+
+
 ;; add .emacs.d/modules to load path
 (setq dotfiles-dir (file-name-directory
                     (or (buffer-file-name) (file-chase-links load-file-name))))
