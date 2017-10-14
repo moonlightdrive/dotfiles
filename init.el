@@ -93,6 +93,14 @@
 (setq org-agenda-files (list my/org-anizer
                              (concat org-directory "refile.org")))
 (setq org-default-notes-file (concat org-directory "refile.org"))
+;; TODO do you like weekly filing?
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/anizer.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("j" "Journal" entry (file+olp+datetree "~/org/amplified.org")
+         "* %?\nEntered on %U\n  %i\n  %a" :tree-type week)))
+
+
 ;; agenda view display 14 days ahead (excluding current day)
 (setq org-agenda-span 15)
 ;; prevent editing invisible text
@@ -125,6 +133,7 @@
 ;; registers
 (set-register ?o (cons 'file my/org-anizer))
 (set-register ?i '(file . "~/.emacs.d/init.el"))
+(set-register ?w '(file . "~/org/amplified.org"))
 
 ;;; elixir
 (use-package elixir-mode
