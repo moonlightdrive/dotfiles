@@ -71,7 +71,8 @@
   (add-hook 'before-save-hook 'whitespace-cleanup)
   :config (setq-default whitespace-style '(face empty tab trailing)))
 
-(load-theme 'monokai t)
+(use-package leuven-theme
+  :config (load-theme 'leuven t))
 
 ;; magit
 (use-package magit
