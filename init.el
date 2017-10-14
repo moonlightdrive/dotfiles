@@ -1,15 +1,38 @@
-;; Turn off mouse interface early in startup to avoid momentary display
-(if (fboundp 'menu-bar-mode) (menu-bar-mode 0))
-(if (fboundp 'tool-bar-mode) (tool-bar-mode 0))
-(if (fboundp 'scroll-bar-mode) (scroll-bar-mode 0))
+;;; -*- lexical-binding: t -*-
+;;; init.el --- the beginning
 
-;;; EMACS ;;;;;
+;; Copyright (C) 2017 Jyotsna <https://github.com/moonlightdrive>
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+;;; Code:
+
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
-(set-face-attribute 'default nil :height 120)
+;; Turn off mouse interface early in startup to avoid momentary display
+(if (fboundp 'menu-bar-mode) (menu-bar-mode 0))
+(if (fboundp 'tool-bar-mode) (tool-bar-mode 0))
+(if (fboundp 'scroll-bar-mode) (scroll-bar-mode 0))
+
+;; use-package.el not needed at runtime, so the following reduces load time
+(eval-when-compile
+  (require 'use-package))
+
+(set-face-attribute 'default nil :height 145)
 ;; modeline
 (line-number-mode t)
 (column-number-mode t)
@@ -38,7 +61,6 @@
 (when (fboundp 'winner-mode)
   (winner-mode 1))
 
-;; took this from someone but don't recall who :c
 (use-package whitespace
   :demand t
   :ensure nil
