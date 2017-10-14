@@ -144,10 +144,11 @@
                             (alchemist-iex-compile-this-buffer))))
   (bind-keys :map alchemist-mode-map
              ("C-x C-e" . alchemist-iex-send-current-line))
-  :mode (("\\.eex\\'" alchemist-mode)))
+  :mode (("\\.eex\\'" . alchemist-mode)))
 
 ;;; web-mode
 (use-package web-mode
   :config
   (setq-default indent-tabs-mode nil)
-  (setq web-mode-markup-indent-style 2))
+  (setq web-mode-markup-indent-style 2)
+  :mode ("\\.eex\\'" . web-mode))
