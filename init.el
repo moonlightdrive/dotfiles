@@ -161,3 +161,10 @@
   (setq-default indent-tabs-mode nil)
   (setq web-mode-markup-indent-style 2)
   :mode ("\\.eex\\'" . web-mode))
+;; add .emacs.d/modules to load path
+(setq dotfiles-dir (file-name-directory
+                    (or (buffer-file-name) (file-chase-links load-file-name))))
+;; (add-to-list 'load-path (concat dotfiles-dir "modules"))
+
+(setq custom-file (concat dotfiles-dir "custom.el"))
+(load custom-file 'noerror)
