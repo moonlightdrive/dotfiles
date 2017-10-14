@@ -53,6 +53,7 @@
   (windmove-default-keybindings))
 (global-set-key [(meta ?B)] 'windmove-left)  ; was unbound
 (global-set-key [(meta ?P)] 'windmove-up)    ; was unbound
+;; TODO alchemist mode rebinds these >.>
 (global-set-key [(meta ?F)] 'windmove-right) ; was unbound
 (global-set-key [(meta ?N)] 'windmove-down)  ; was unbound
 
@@ -74,11 +75,12 @@
 (use-package leuven-theme
   :config (load-theme 'leuven t))
 
-;; magit
+;;; magit ;;;;;
 (use-package magit
   :commands magit-status
   :bind ("C-x g" . magit-status)
   :bind ("C-x M-g" . magit-dispatch-popup))
+;; TODO magit + projectile?
 
 ;;; orgmode ;;;;;
 (define-key global-map "\C-cl" 'org-store-link)
@@ -112,7 +114,6 @@
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
 
 ;;; ocaml ;;;;;
-;; (require 'ocp-indent)
 (let ((opam-share (ignore-errors (car (process-lines "opam" "config" "var" "share")))))
   (when (and opam-share (file-directory-p opam-share))
     (add-to-list 'load-path (expand-file-name "emacs/site-lisp" opam-share))
