@@ -161,6 +161,52 @@
   (setq-default indent-tabs-mode nil)
   (setq web-mode-markup-indent-style 2)
   :mode ("\\.eex\\'" . web-mode))
+
+(use-package ivy
+  :ensure t
+  :commansd ivy
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-height 10)
+  ;; show number of candidates
+  (setq ivy-count-format "%d/%d ")
+  :diminish ivy)
+
+;; TODO don't know if i like this
+(use-package counsel
+  :ensure t
+  :bind (("M-x" . counsel-M-x)
+         ("M-y" . counsel-yank-pop)))
+
+(use-package projectile
+  :demand t
+  :commands projectile-global-mode
+  :config
+  (setq projectile-completion-system 'ivy)
+  (projectile-global-mode)
+  :diminish projectile-mode)
+
+;; TODO move this also use it haha?
+;; https://github.com/ericdanan/counsel-projectile
+(use-package counsel-projectile
+  :config
+  (counsel-projectile-on))
+
+;; actually C-x C-f M-n is does this in ivy :o
+;; (define-key global-map "\C-co" 'find-file-at-point)
+
+;; todo don't know if i actually like this
+;; Use ibuffer instead of list-buffers (C-x C-b) and sort by project.
+(use-package ibuffer-projectile
+  :bind ("C-x C-b" . ibuffer)
+  :config
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (ibuffer-projectile-set-filter-groups)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic)))))
+
 (use-package yasnippet
   :init
   (setq yas-snippet-dirs
