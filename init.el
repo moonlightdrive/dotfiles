@@ -159,7 +159,7 @@
 (use-package web-mode
   :config
   (setq-default indent-tabs-mode nil)
-  (setq web-mode-markup-indent-style 2)
+  (setq web-mode-markup-indent-offset 2)
   :mode ("\\.eex\\'" . web-mode))
 
 (use-package ivy
