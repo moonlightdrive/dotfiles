@@ -164,14 +164,13 @@
 
 (use-package ivy
   :ensure t
-  :commansd ivy
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
   (setq ivy-height 10)
   ;; show number of candidates
   (setq ivy-count-format "%d/%d ")
-  :diminish ivy)
+  :diminish ivy-mode)
 
 ;; TODO don't know if i like this
 (use-package counsel
