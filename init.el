@@ -146,6 +146,9 @@
   :commands alchemist-mode
   :init
   (setq alchemist-key-command-prefix (kbd "C-c k"))
+  ;; i might actually want to redefine alchemist-test--success-face
+  ;; and alchemist-test--failed-face
+  (setq alchemist-test-status-modeline nil)
   :config
   (bind-keys :map alchemist-mode-map
              ("C-c C-l" . (lambda () (interactive)
