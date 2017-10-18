@@ -217,6 +217,8 @@
   (yas-global-mode 1)
   :diminish yas-minor-mode)
 
+(use-package autorevert
+  :delight auto-revert-mode)
 
 
 ;; add .emacs.d/modules to load path
