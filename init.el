@@ -142,8 +142,8 @@
   (add-hook 'elixir-mode-hook 'alchemist-mode))
 
 (use-package alchemist
+  :diminish alchemist-mode
   :commands alchemist-mode
-  :diminish alchemist
   :init
   (setq alchemist-key-command-prefix (kbd "C-c k"))
   :config
