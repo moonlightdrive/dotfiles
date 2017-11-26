@@ -55,6 +55,7 @@
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql;
+    authentication = "local all postgres md5";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
