@@ -8,7 +8,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./amplified.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -43,20 +42,32 @@
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
+  # $ less ~/.config/plasma-workspace/env/set_window_manager.sh
+  # export KDEWM=/run/current-system/sw/bin/xmonad
+  nixpkgs.config.packageOverrides = pkgs:
+    { xmonad-with-packages = pkgs.xmonad-with-packages.override
+      { ghcWithPackages = config.services.xserver.windowManager.xmonad.haskellPackages.ghcWithPackages;
+        packages = self: [ self.xmonad-contrib self.xmonad-extras ];
+      };
+    };
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     emacs
+    evince
     firefox
     git
     wget
+
+    xmonad-with-packages
   ];
 
   services.postgresql = {
     enable = true;
-    package = pkgs.postgresql;
-    authentication = "local all postgres md5";
-  };
+    package = pkgs.postgresql100;
+    authentication = "local all postgres trust";
+   };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -78,30 +89,24 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
-    layout = "dvorak";
-  };
-
-  # start w systemctl start display-manager
-  services.xserver.autorun = false;
-
-  # Enable touchpad support.
-  services.xserver.synaptics = {
-    enable = true;
-    twoFingerScroll = true;
-  };
-
   services.emacs.enable = true;
   services.emacs.defaultEditor = true;
 
-  # Enable the KDE Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
+  services.xserver = {
+    enable = true;
+    layout = "dvorak";
 
-  # services.xserver.windowManager.xmonad.enable = true;
-  # services.xserver.windowManager.xmonad.enableContribAndExtras = true;
+    videoDrivers = ["intel"];
+
+    # start w systemctl start display-manager
+    autorun = true;
+    displayManager.sddm.enable = true;
+    desktopManager.plasma5.enable = true;
+    desktopManager.default = "plasma5";
+
+    synaptics.enable = true;
+    synaptics.twoFingerScroll = true;
+  };
 
 users.extraUsers.moonlight = {
     name = "moonlight";
