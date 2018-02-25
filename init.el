@@ -88,6 +88,11 @@
 (define-key global-map "\C-cc" 'org-capture)
 (setq org-log-done t)
 
+;; babel/tangle
+(org-babel-do-load-languages
+ 'org-babel-load-languages '((C . t)))
+(setq org-src-preserve-indentation t) ;; so tabs in makefiles aren't replaced
+
 (setq org-directory "~/org/")
 (defvar my/org-anizer (concat org-directory "anizer.org"))
 (setq org-agenda-files (list my/org-anizer
