@@ -21,6 +21,8 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/") t)
+;; for nixos
+;;(setq package-enable-at-startup nil)
 (package-initialize)
 
 ;; Turn off mouse interface early in startup to avoid momentary display
@@ -32,7 +34,7 @@
 (eval-when-compile
   (require 'use-package))
 
-(set-face-attribute 'default nil :height 145)
+(set-face-attribute 'default nil :height 110)
 ;; modeline
 (line-number-mode t)
 (column-number-mode t)
@@ -45,6 +47,8 @@
 (setq-default indent-tabs-mode nil)
 ;; I end sentences with one space!
 (setq sentence-end-double-space nil)
+;; always indent after a newline
+(define-key global-map (kbd "RET") 'newline-and-indent)
 (show-paren-mode 1)
 (setq compilation-scroll-output 'first-error)
 
@@ -72,11 +76,23 @@
   (add-hook 'before-save-hook 'whitespace-cleanup)
   :config (setq-default whitespace-style '(face empty tab trailing)))
 
-(use-package leuven-theme
-  :config (load-theme 'leuven t))
+;; default indentation
+;; HTML/web-mode
+(setq-default web-mode-markup-indent-offset 2
+              web-mode-css-indent-offset 2
+              web-mode-code-indent-offset 2
+              web-mode-style-padding 2
+              web-mode-script-padding 2)
+
+;; (use-package leuven-theme
+;;   :config (load-theme 'leuven t))
+
+(use-package tao-theme
+  :config (load-theme 'tao-yang t))
 
 ;;; magit ;;;;;
 (use-package magit
+  :ensure t
   :commands magit-status
   :bind ("C-x g" . magit-status)
   :bind ("C-x M-g" . magit-dispatch-popup))
@@ -90,7 +106,8 @@
 
 ;; babel/tangle
 (org-babel-do-load-languages
- 'org-babel-load-languages '((C . t)))
+ 'org-babel-load-languages '((C . t)
+                             (elixir . t))
 (setq org-src-preserve-indentation t) ;; so tabs in makefiles aren't replaced
 
 (setq org-directory "~/org/")
@@ -102,9 +119,8 @@
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/anizer.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-        ("j" "Journal" entry (file+olp+datetree "~/org/amplified.org")
+        ("j" "Journal" entry (file+datetree "~/org/cg_blog.org")
          "* %?\nEntered on %U\n  %i\n  %a" :tree-type week)))
-
 
 ;; agenda view display 14 days ahead (excluding current day)
 (setq org-agenda-span 15)
@@ -138,7 +154,6 @@
 ;; registers
 (set-register ?o (cons 'file my/org-anizer))
 (set-register ?i '(file . "~/.emacs.d/init.el"))
-(set-register ?w '(file . "~/org/amplified.org"))
 
 ;;; elixir
 (use-package elixir-mode
@@ -187,6 +202,7 @@
          ("M-y" . counsel-yank-pop)))
 
 (use-package projectile
+  :ensure t
   :demand t
   :commands projectile-global-mode
   :config
@@ -215,12 +231,16 @@
                 (ibuffer-do-sort-by-alphabetic)))))
 
 (use-package yasnippet
+  :ensure t
   :init
   (setq yas-snippet-dirs
         '("~/.emacs.d/snippets"))
   :config
   (yas-global-mode 1)
   :diminish yas-minor-mode)
+
+(use-package delight
+  :ensure t)
 
 (use-package autorevert
   :delight auto-revert-mode)
