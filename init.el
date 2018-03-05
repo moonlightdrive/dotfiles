@@ -84,6 +84,13 @@
               web-mode-style-padding 2
               web-mode-script-padding 2)
 
+
+;; Remap join-line to M-j where it's easier to get to.
+;; join-line will join the line you're on with the line above it
+;; in a reasonable manner for the type of file you're editing.
+;; ty https://github.com/bodil/ohai-emacs
+(global-set-key (kbd "M-j") 'join-line)
+
 ;; (use-package leuven-theme
 ;;   :config (load-theme 'leuven t))
 
@@ -244,7 +251,6 @@
 
 (use-package autorevert
   :delight auto-revert-mode)
-
 
 ;; add .emacs.d/modules to load path
 (setq dotfiles-dir (file-name-directory
