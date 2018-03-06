@@ -113,8 +113,8 @@
 
 ;; babel/tangle
 (org-babel-do-load-languages
- 'org-babel-load-languages '((C . t)
-                             (elixir . t))
+ 'org-babel-load-languages '((C . t)))
+
 (setq org-src-preserve-indentation t) ;; so tabs in makefiles aren't replaced
 
 (setq org-directory "~/org/")
@@ -179,7 +179,7 @@
   :config
   (bind-keys :map alchemist-mode-map
              ("C-c C-l" . (lambda () (interactive)
-			    (save-buffer)
+                            (save-buffer)
                             (alchemist-iex-compile-this-buffer))))
   (bind-keys :map alchemist-mode-map
              ("C-x C-e" . alchemist-iex-send-current-line))
