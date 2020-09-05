@@ -1,7 +1,0 @@
-set "hintchars=dhtnaoeuifgcrl',.pybm;qjkx"
-:highlight Hint -append font-size:16px; color: #222; background-color: #4ce6f7;
-set noscrollbars
-set toolbars=nonavigation
-source! /home/moonlight/.vimperatorrc.local
-
-" vim: set ft=vimperator:
